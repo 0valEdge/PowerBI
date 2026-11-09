@@ -1,0 +1,174 @@
+table classification_report
+	lineageTag: 0fb95d77-93e5-4da5-8b99-b32fe47dad9f
+
+	measure 'Data Sources Scanned' =
+			
+			CALCULATE (
+			    DISTINCTCOUNT ( classification_report[datasource] ),
+			    classification_report[catalog_status] = "Classified"
+			)
+		formatString: 0
+		lineageTag: 00d7f40c-efe0-41f6-85cb-6ef7cebfa141
+
+	measure 'Sensitive Columns' =
+			
+			DISTINCTCOUNT (
+			    classification_report[ColumnKey]
+			)
+		formatString: 0
+		lineageTag: 6ec41f11-2136-41bd-ac38-369694a15fef
+
+	measure 'Sensitive Elements Found' =
+			
+			CALCULATE (
+			    DISTINCTCOUNT ( classification_report[ColumnKey] ),
+			    classification_report[catalog_status] = "Classified"
+			)
+		formatString: 0
+		lineageTag: d92d483e-3d51-478d-94f3-7975e2e014c7
+
+	measure 'Tables With Sensitive Columns' =
+			
+			CALCULATE (
+			    DISTINCTCOUNT ( classification_report[TableKey] ),
+			    classification_report[catalog_status] = "Classified"
+			)
+		formatString: 0
+		lineageTag: 7e376894-fa0a-4005-9b18-5fb6d0250eed
+
+	column report_id
+		dataType: int64
+		formatString: 0
+		lineageTag: b233b133-054b-4136-ac10-c26338804fc4
+		summarizeBy: sum
+		sourceColumn: report_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column datasource
+		dataType: string
+		lineageTag: 4457cfaa-5de1-48ad-8687-2bcf7035cd68
+		summarizeBy: none
+		sourceColumn: datasource
+
+		annotation SummarizationSetBy = Automatic
+
+	column servertype
+		dataType: string
+		lineageTag: 41d1f352-88bb-4cc4-b601-cc66a701f632
+		summarizeBy: none
+		sourceColumn: servertype
+
+		annotation SummarizationSetBy = Automatic
+
+	column schemaname
+		dataType: string
+		lineageTag: 0db58968-343d-47b0-8bf0-570223a5562e
+		summarizeBy: none
+		sourceColumn: schemaname
+
+		annotation SummarizationSetBy = Automatic
+
+	column table_name
+		dataType: string
+		lineageTag: b9f0623d-7414-4946-97e6-ddfe0efe8734
+		summarizeBy: none
+		sourceColumn: table_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column column_name
+		dataType: string
+		lineageTag: 9d3abfeb-8f69-4808-8553-992d8690401b
+		summarizeBy: none
+		sourceColumn: column_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column catalog_status
+		dataType: string
+		lineageTag: 2ac61d7a-10b7-4132-8ead-c7ff59d71ccc
+		summarizeBy: none
+		sourceColumn: catalog_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column classification_type
+		dataType: string
+		lineageTag: 752e8ba6-909d-4ab4-84ee-c8b2e0c65804
+		summarizeBy: none
+		sourceColumn: classification_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column dateclassified
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 1ff7b6f3-2962-4148-b78b-5b0178326340
+		summarizeBy: none
+		sourceColumn: dateclassified
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column classification_source
+		dataType: string
+		lineageTag: 63bedf33-8d5e-49d3-970f-96f9eefd5b8e
+		summarizeBy: none
+		sourceColumn: classification_source
+
+		annotation SummarizationSetBy = Automatic
+
+	column etl_load_date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 8a338993-e8d3-4fd7-8d6f-bf379b47e7eb
+		summarizeBy: none
+		sourceColumn: etl_load_date
+
+		variation Variation
+			isDefault
+			relationship: e4b6e0a4-acff-43d8-ad3a-2983a67db838
+			defaultHierarchy: LocalDateTable_40fa4631-93a0-40b6-8a7a-8b41a6fbdc54.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column ColumnKey = ```
+			
+			classification_report[datasource] & "|" &
+			classification_report[schemaname] & "|" &
+			classification_report[table_name] & "|" &
+			classification_report[column_name]
+			
+			```
+		lineageTag: 0075ccd6-90a7-4082-87fc-d1253bbdf204
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column TableKey = ```
+			
+			classification_report[datasource] & "|" &
+			classification_report[schemaname] & "|" &
+			classification_report[table_name]
+			
+			```
+		lineageTag: 3e767da9-8490-4136-9e88-50ab61e3dcbb
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition classification_report = m
+		mode: import
+		source =
+				let
+				    Source = MySQL.Database(Host, Database, [ReturnSingleDatabase=true]),
+				    ovaledgedb_classification_report = Source{[Schema="ovaledgedb",Item="classification_report"]}[Data]
+				in
+				    ovaledgedb_classification_report
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

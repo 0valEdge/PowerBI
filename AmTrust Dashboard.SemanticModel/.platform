@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "AmTrust Dashboard"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "f1e5f690-efc6-9ff4-46b1-8062a8cc01d3"
+  }
+}

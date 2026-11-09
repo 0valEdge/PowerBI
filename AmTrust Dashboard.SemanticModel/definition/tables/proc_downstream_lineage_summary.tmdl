@@ -1,0 +1,117 @@
+table proc_downstream_lineage_summary
+	lineageTag: 595e3e7d-cfea-4f81-abc7-205812ed501b
+
+	measure 'Importance Cell' =
+			
+			VAR v = [Importance Value]
+			VAR pct = MIN ( 1, DIVIDE ( v, 100 ) )
+			RETURN
+			"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='150' height='20'>"
+			& "<rect y='7' width='80' height='6' rx='3' fill='%23E5E7EB'/>"
+			& "<rect y='7' width='" & MAX ( 3, ROUND ( 80 * pct, 0 ) ) & "' height='6' rx='3' fill='%231D6FB8'/>"
+			& "<text x='92' y='15' font-size='18' font-weight='bold' fill='%23111827' font-family='Arial, sans-serif'>"
+			& ROUND ( v, 0 ) & "</text></svg>"
+		lineageTag: e470909a-3a65-452c-bd53-57ece9460628
+		dataCategory: ImageUrl
+
+	measure 'Importance Value' =
+			
+			COALESCE ( MAX ( proc_downstream_lineage_summary[Importance] ), 0 )
+		formatString: 0
+		lineageTag: de647c18-96a1-4ff6-89d8-276726913c1d
+
+	column id
+		dataType: int64
+		formatString: 0
+		lineageTag: e46c2235-7f70-4ce1-a9b0-5c231be19fe2
+		summarizeBy: sum
+		sourceColumn: id
+
+		annotation SummarizationSetBy = Automatic
+
+	column Storedprocedure
+		dataType: string
+		lineageTag: 0f0fdddc-68d1-47cd-8be5-9b7b17c6b2c3
+		summarizeBy: none
+		sourceColumn: Storedprocedure
+
+		annotation SummarizationSetBy = Automatic
+
+	column Datasource
+		dataType: string
+		lineageTag: af411d35-3224-4427-9533-69e1aaa2d0ab
+		summarizeBy: none
+		sourceColumn: Datasource
+
+		annotation SummarizationSetBy = Automatic
+
+	column SchemaName
+		dataType: string
+		lineageTag: 2623c045-e212-4bca-9913-f42f02f78b19
+		summarizeBy: none
+		sourceColumn: SchemaName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Tablereferenced
+		dataType: int64
+		formatString: 0
+		lineageTag: ce01e90f-fd8d-4347-9cc0-d220c56e6f92
+		summarizeBy: sum
+		sourceColumn: Tablereferenced
+
+		annotation SummarizationSetBy = Automatic
+
+	column DownstreamDependencies
+		dataType: int64
+		formatString: 0
+		lineageTag: e3d65532-b26a-4caf-a400-274f897bafd9
+		summarizeBy: sum
+		sourceColumn: DownstreamDependencies
+
+		annotation SummarizationSetBy = Automatic
+
+	column DownstreamAssets
+		dataType: string
+		lineageTag: 3bc9bc8b-e447-4a05-b4cd-ae37c65ffa92
+		summarizeBy: none
+		sourceColumn: DownstreamAssets
+
+		annotation SummarizationSetBy = Automatic
+
+	column Importance
+		dataType: int64
+		formatString: 0
+		lineageTag: 00b58695-8ccc-443b-830c-e5f8da89fe6c
+		summarizeBy: sum
+		sourceColumn: Importance
+
+		annotation SummarizationSetBy = Automatic
+
+	column LastModified
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: d45ee622-a9f2-49a8-aff7-8ab3e7ac2c2a
+		summarizeBy: none
+		sourceColumn: LastModified
+
+		variation Variation
+			isDefault
+			relationship: ea925070-5663-4070-b071-87d521b795ed
+			defaultHierarchy: LocalDateTable_21a5e032-05eb-4fb7-ae3c-91ec319ae102.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition proc_downstream_lineage_summary = m
+		mode: import
+		source =
+				let
+				    Source = MySQL.Database(Host, Database, [ReturnSingleDatabase=true]),
+				    ovaledgedb_proc_downstream_lineage_summary = Source{[Schema="ovaledgedb",Item="proc_downstream_lineage_summary"]}[Data]
+				in
+				    ovaledgedb_proc_downstream_lineage_summary
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

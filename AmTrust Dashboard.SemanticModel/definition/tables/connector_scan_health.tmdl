@@ -1,0 +1,163 @@
+table connector_scan_health
+	lineageTag: 44aca8cc-ef78-4145-a836-783d05a21fdd
+
+	measure 'Days Since Scan' =
+			
+			COALESCE ( MAX ( connector_scan_health[days_since_last_scan] ), 0 )
+		formatString: 0
+		lineageTag: b80437b9-6118-4f14-869a-9f07c9e2b8c6
+
+	measure 'Days Label' =
+			
+			[Days Since Scan] & IF ( [Days Since Scan] = 1, " day", " days" )
+		lineageTag: 2f723097-f6a6-4e98-93d5-b84769eafff4
+
+	measure 'Scan Bar' =
+			
+			VAR pct = MIN ( 1, DIVIDE ( [Days Since Scan], 45 ) )
+			VAR fillW = MAX ( 4, ROUND ( 120 * pct, 0 ) )
+			VAR clr =
+			    SWITCH ( [Status], "Healthy", "%2322A06B", "Overdue", "%23E8A33D", "%23E5484D" )
+			RETURN
+			"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='12'>"
+			& "<rect y='4' width='120' height='4' rx='2' fill='%23E5E7EB'/>"
+			& "<rect y='2' width='" & fillW & "' height='8' rx='4' fill='" & clr & "'/></svg>"
+		lineageTag: 65c74387-0717-46ae-b38d-9a8173156b52
+		dataCategory: ImageUrl
+
+	measure Status =
+			
+			SWITCH (
+			    TRUE (),
+			    [Days Since Scan] <= 7,  "Healthy",
+			    [Days Since Scan] <= 30, "Overdue",
+			    "Stale"
+			)
+		lineageTag: ec9ee79a-86b1-430b-ae2f-2836763e3b3f
+
+	measure 'Status Pill' =
+			
+			VAR clr = SWITCH ( [Status], "Healthy", "%23166534", "Overdue", "%2392400E", "%23991B1B" )
+			VAR bg  = SWITCH ( [Status], "Healthy", "%23DCFCE7", "Overdue", "%23FEF3C7", "%23FEE2E2" )
+			RETURN
+			"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='26'>"
+			& "<rect width='80' height='26' rx='13' fill='" & bg & "'/>"
+			& "<text x='40' y='17' font-size='12' font-weight='bold' text-anchor='middle' fill='" & clr & "' font-family='Segoe UI'>"
+			& [Status] & "</text></svg>"
+		lineageTag: 5b66a8c8-ac56-4ea2-9158-4b80271c53a2
+		dataCategory: ImageUrl
+
+	column id
+		dataType: int64
+		formatString: 0
+		lineageTag: 005120ac-c627-4672-afe0-13b08190c401
+		summarizeBy: sum
+		sourceColumn: id
+
+		annotation SummarizationSetBy = Automatic
+
+	column connectionname
+		dataType: string
+		lineageTag: 9947c159-c0e7-42cd-9cb4-4f249f92a85f
+		summarizeBy: none
+		sourceColumn: connectionname
+
+		annotation SummarizationSetBy = Automatic
+
+	column servertype
+		dataType: string
+		lineageTag: 219f789f-2d24-4b2a-8a51-171e473a6a3b
+		summarizeBy: none
+		sourceColumn: servertype
+
+		annotation SummarizationSetBy = Automatic
+
+	column last_success
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: a986634a-072b-4e9e-a1a2-f16e0c36daf8
+		summarizeBy: none
+		sourceColumn: last_success
+
+		variation Variation
+			isDefault
+			relationship: c378cce7-8819-4cbd-b0ae-de9dbcc7fea5
+			defaultHierarchy: LocalDateTable_89bceb83-54c7-4eee-bb39-ea04277602c0.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column last_attempt
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 29eee47d-9b32-4e91-9cd7-2438a65967cc
+		summarizeBy: none
+		sourceColumn: last_attempt
+
+		variation Variation
+			isDefault
+			relationship: 680706b4-6b67-40c2-bb7d-af907b53471b
+			defaultHierarchy: LocalDateTable_c5f92e6f-ae17-44c2-b9cc-ea33982d5665.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column days_since_last_scan
+		dataType: int64
+		formatString: 0
+		lineageTag: 65b5232e-3312-4e20-9bd0-65bc3617b715
+		summarizeBy: sum
+		sourceColumn: days_since_last_scan
+
+		annotation SummarizationSetBy = Automatic
+
+	column scan_status
+		dataType: string
+		lineageTag: 3015b0c8-ca7a-4e3d-aa1b-ce2fac2229a8
+		summarizeBy: none
+		sourceColumn: scan_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column last_attempt_failed
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: a5fc7982-5a87-4a02-8da8-a66e4f6a5917
+		summarizeBy: none
+		sourceColumn: last_attempt_failed
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Connection Cell Col' =
+			
+			VAR nm =
+			    SUBSTITUTE (
+			        SUBSTITUTE (
+			            SUBSTITUTE ( connector_scan_health[connectionname], UNICHAR ( 8212 ), "-" ),
+			            "&", "and"
+			        ),
+			        "#", ""
+			    )
+			VAR sub = SUBSTITUTE ( connector_scan_health[servertype], "&", "and" )
+			RETURN
+			    "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='270' height='44'>"
+			        & "<text x='0' y='18' font-size='24' font-family='Arial Black' fill='%231D6FB8'>" & nm & "</text>"
+			        & "<text x='0' y='36' font-size='18' font-family='Arial' fill='%236B7280'>" & sub & "</text>"
+			        & "</svg>"
+		lineageTag: 17c6b875-c301-4430-8ccd-9c98d2d3a2c1
+		dataCategory: ImageUrl
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition connector_scan_health = m
+		mode: import
+		source =
+				let
+				    Source = MySQL.Database(Host, Database, [ReturnSingleDatabase=true]),
+				    ovaledgedb_connector_scan_health = Source{[Schema="ovaledgedb",Item="connector_scan_health"]}[Data]
+				in
+				    ovaledgedb_connector_scan_health
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Exception
+

@@ -1,0 +1,44 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	valueFilterBehavior: independent
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["Host","Database","Metadata_change_log","classification_report","Technicalassets","connector_scan_health","procedure_summary","proc_downstream_lineage_summary","RefreshTime","dsar_dashboard_summary"]
+
+ref table Metadata_change_log
+ref table DateTableTemplate_17622718-f025-46fc-a8cf-3b3bb71b919c
+ref table LocalDateTable_0bc69a33-3e88-41ea-9419-d2321c055fde
+ref table LocalDateTable_ddfd99cb-e7f2-482e-a196-32bda57da6ef
+ref table LocalDateTable_7dae7115-eab3-4f8e-90ec-4b56e1ecec7e
+ref table LocalDateTable_9dfca4ed-8905-4f66-bda3-956fb2ccb211
+ref table classification_report
+ref table LocalDateTable_40fa4631-93a0-40b6-8a7a-8b41a6fbdc54
+ref table Technicalassets
+ref table LocalDateTable_221d57a0-f61d-41f1-853e-8ed12598e343
+ref table connector_scan_health
+ref table LocalDateTable_89bceb83-54c7-4eee-bb39-ea04277602c0
+ref table LocalDateTable_c5f92e6f-ae17-44c2-b9cc-ea33982d5665
+ref table procedure_summary
+ref table LocalDateTable_bf881605-11de-4603-b425-e8c7d95897bc
+ref table proc_downstream_lineage_summary
+ref table LocalDateTable_21a5e032-05eb-4fb7-ae3c-91ec319ae102
+ref table RefreshTime
+ref table Date_classifed_filter
+ref table date
+ref table LocalDateTable_826ca948-7e67-4de3-9bce-19b98bdaed76
+ref table dsar_dashboard_summary
+ref table LocalDateTable_fce56c98-841e-4669-84c6-5ff558ce450b
+ref table LocalDateTable_f985daea-c3fe-4e35-bf09-d5850532884f
+ref table LocalDateTable_571de277-3e8a-4143-b9ce-f6e8a1455f45
+ref table LocalDateTable_066e367b-44cf-4e91-bfae-fb614407df16
+ref table LocalDateTable_30ea63bb-4226-43f9-b8bd-4761cf3b811f
+ref table Privacy_Date_filter
+
+ref cultureInfo en-US
+

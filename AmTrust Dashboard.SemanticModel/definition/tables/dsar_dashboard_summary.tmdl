@@ -1,0 +1,607 @@
+table dsar_dashboard_summary
+	lineageTag: 073836e3-4762-452c-8175-8c9e1d3c5aa5
+
+	measure 'Overdue (SLA exceeded)' =
+			
+			CALCULATE (
+			    DISTINCTCOUNT ( dsar_dashboard_summary[ID] ),
+			    dsar_dashboard_summary[is_overdue] = TRUE
+			)
+		formatString: 0
+		lineageTag: b1b15130-50a6-429e-bbcf-dc4d0d920394
+
+	column ID
+		dataType: int64
+		formatString: 0
+		lineageTag: e147d1fc-e15b-4c63-9e12-6e0e00557bb8
+		summarizeBy: count
+		sourceColumn: ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column request_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 87545f25-f960-4f6d-8936-b0d103010efa
+		summarizeBy: sum
+		sourceColumn: request_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column request_id_display
+		dataType: string
+		lineageTag: 0e5ffaa2-0b7c-49a1-9b32-de5eef7702b9
+		summarizeBy: none
+		sourceColumn: request_id_display
+
+		annotation SummarizationSetBy = Automatic
+
+	column request_summary
+		dataType: string
+		lineageTag: 41efbafd-1756-4f70-a754-621b69c001fa
+		summarizeBy: none
+		sourceColumn: request_summary
+
+		annotation SummarizationSetBy = Automatic
+
+	column tickettemplatename
+		dataType: string
+		lineageTag: f389ddf7-2109-44da-826b-7d41fb8f9344
+		summarizeBy: none
+		sourceColumn: tickettemplatename
+
+		annotation SummarizationSetBy = Automatic
+
+	column request_type
+		dataType: string
+		lineageTag: 1c692370-3478-4c0e-a770-a1c2c458a438
+		summarizeBy: none
+		sourceColumn: request_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column campaign_name
+		dataType: string
+		lineageTag: 1a4012aa-d41f-45be-936b-2b6c35951c32
+		summarizeBy: none
+		sourceColumn: campaign_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column integration_status
+		dataType: string
+		lineageTag: 5267dc2c-a44b-4f99-abda-45c6c9d56fcf
+		summarizeBy: none
+		sourceColumn: integration_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column status_code
+		dataType: string
+		lineageTag: bd41d2da-0436-42ac-91cf-ec21f6cbe330
+		summarizeBy: none
+		sourceColumn: status_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column status
+		dataType: string
+		lineageTag: ab326db2-4f66-40e5-b8fa-65f7ad0bd4e8
+		summarizeBy: none
+		sourceColumn: status
+
+		annotation SummarizationSetBy = Automatic
+
+	column status_chip
+		dataType: string
+		lineageTag: 35a8ef41-abc3-4b82-b9ad-a9dbe60af0c4
+		summarizeBy: none
+		sourceColumn: status_chip
+
+		annotation SummarizationSetBy = Automatic
+
+	column requested_by
+		dataType: string
+		lineageTag: 42284992-6e8e-4aa9-80d6-ccaccb132ade
+		summarizeBy: none
+		sourceColumn: requested_by
+
+		annotation SummarizationSetBy = Automatic
+
+	column requested_by_display
+		dataType: string
+		lineageTag: ea96c82b-8445-4b31-8a42-009378df525b
+		summarizeBy: none
+		sourceColumn: requested_by_display
+
+		annotation SummarizationSetBy = Automatic
+
+	column created_date
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 7262e6dc-4946-4ddd-a731-a8239cdda1fc
+		summarizeBy: none
+		sourceColumn: created_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column last_modified_date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 5383a190-3ba6-4551-ba05-ce5c12896b4b
+		summarizeBy: none
+		sourceColumn: last_modified_date
+
+		variation Variation
+			isDefault
+			relationship: d1608d78-ba1b-4532-b4fa-cacc7e5ad996
+			defaultHierarchy: LocalDateTable_fce56c98-841e-4669-84c6-5ff558ce450b.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column age_days
+		dataType: int64
+		formatString: 0
+		lineageTag: 59fcfa3a-647c-4e10-b2f1-3f47a179a59e
+		summarizeBy: sum
+		sourceColumn: age_days
+
+		annotation SummarizationSetBy = Automatic
+
+	column age_display
+		dataType: string
+		lineageTag: 64f25fb3-b7bd-4abc-8a56-4605cb4682f3
+		summarizeBy: none
+		sourceColumn: age_display
+
+		annotation SummarizationSetBy = Automatic
+
+	column dashboard_status
+		dataType: string
+		lineageTag: 6ec757b1-f3b8-4bc0-b53e-7b5ae967843f
+		summarizeBy: none
+		sourceColumn: dashboard_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column sla_status
+		dataType: string
+		lineageTag: 76019413-d1b1-4030-b441-1dee76e63691
+		summarizeBy: none
+		sourceColumn: sla_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column next_approver
+		dataType: string
+		lineageTag: f09b03cf-314b-4bdc-84b3-f0be3bcc71df
+		summarizeBy: none
+		sourceColumn: next_approver
+
+		annotation SummarizationSetBy = Automatic
+
+	column next_action
+		dataType: string
+		lineageTag: 98db4465-8ff8-439c-9227-a23299dcfc6a
+		summarizeBy: none
+		sourceColumn: next_action
+
+		annotation SummarizationSetBy = Automatic
+
+	column previous_approver
+		dataType: string
+		lineageTag: a00bf142-9f1d-4da1-a64a-cf083ce9ab79
+		summarizeBy: none
+		sourceColumn: previous_approver
+
+		annotation SummarizationSetBy = Automatic
+
+	column pending_since
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 448b0dd1-7f23-45a0-b94d-53ffa7868a64
+		summarizeBy: none
+		sourceColumn: pending_since
+
+		variation Variation
+			isDefault
+			relationship: 0a27f71a-5fd5-4b98-97f2-15e6791ddcb2
+			defaultHierarchy: LocalDateTable_f985daea-c3fe-4e35-bf09-d5850532884f.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column first_approved_date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 901be208-4b98-491a-a0ac-72a8171b5926
+		summarizeBy: none
+		sourceColumn: first_approved_date
+
+		variation Variation
+			isDefault
+			relationship: fb777ed7-a001-4b98-b57b-3291921f5b81
+			defaultHierarchy: LocalDateTable_571de277-3e8a-4143-b9ce-f6e8a1455f45.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column final_approved_date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 9c9cdbb6-28b6-4980-b26a-6518227e34f4
+		summarizeBy: none
+		sourceColumn: final_approved_date
+
+		variation Variation
+			isDefault
+			relationship: aed9ebc4-6bbc-4059-853d-ad3748d5f115
+			defaultHierarchy: LocalDateTable_066e367b-44cf-4e91-bfae-fb614407df16.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column approval_count
+		dataType: int64
+		formatString: 0
+		lineageTag: a68e8fd6-1baa-4160-9960-23c14d6811d5
+		summarizeBy: sum
+		sourceColumn: approval_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column days_to_close
+		dataType: double
+		lineageTag: ceb9a1de-2910-4dd6-be4a-3045bbecb8a8
+		summarizeBy: sum
+		sourceColumn: days_to_close
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column is_open
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: cdae9063-3f1f-490e-9cf1-748b68138fbd
+		summarizeBy: none
+		sourceColumn: is_open
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_completed
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 97909104-58dc-42c1-bdd0-5f29e34bfeaf
+		summarizeBy: none
+		sourceColumn: is_completed
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_overdue
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 3b987da4-0148-4d46-87d7-c4e13a65a7b3
+		summarizeBy: none
+		sourceColumn: is_overdue
+
+		annotation SummarizationSetBy = Automatic
+
+	column stage_submitted
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 6ca56748-5557-443f-b70b-7e02df3e3d2e
+		summarizeBy: none
+		sourceColumn: stage_submitted
+
+		annotation SummarizationSetBy = Automatic
+
+	column workflow_stage
+		dataType: string
+		lineageTag: 91327ef1-519f-4572-9759-cab2ff7ed975
+		summarizeBy: none
+		sourceColumn: workflow_stage
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_steps
+		dataType: int64
+		formatString: 0
+		lineageTag: 7f7334a5-e288-4e4a-8a2c-7cb1be33e858
+		summarizeBy: sum
+		sourceColumn: total_steps
+
+		annotation SummarizationSetBy = Automatic
+
+	column any_step_breached
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 3cfcf7e2-e5b9-4911-ab91-dd054a47fa5d
+		summarizeBy: none
+		sourceColumn: any_step_breached
+
+		annotation SummarizationSetBy = Automatic
+
+	column approver1
+		dataType: string
+		lineageTag: e543390a-0b7e-465e-a70c-6c110ef148be
+		summarizeBy: none
+		sourceColumn: approver1
+
+		annotation SummarizationSetBy = Automatic
+
+	column approver1_status
+		dataType: string
+		lineageTag: beffd881-f79d-470c-9eaf-1aba9b3afb4a
+		summarizeBy: none
+		sourceColumn: approver1_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column approver1_days
+		dataType: double
+		lineageTag: 79bade3e-85f7-476a-8acb-ca9056601dc6
+		summarizeBy: sum
+		sourceColumn: approver1_days
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column approver1_sla_days
+		dataType: double
+		lineageTag: 4f5a3125-2413-4476-822d-3786465119bb
+		summarizeBy: sum
+		sourceColumn: approver1_sla_days
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column approver1_sla_result
+		dataType: string
+		lineageTag: 5f47db4d-ced1-485a-aea6-e3b9dab231c8
+		summarizeBy: none
+		sourceColumn: approver1_sla_result
+
+		annotation SummarizationSetBy = Automatic
+
+	column approver2
+		dataType: string
+		lineageTag: debad3b8-4362-41a9-93aa-8b2847e15724
+		summarizeBy: none
+		sourceColumn: approver2
+
+		annotation SummarizationSetBy = Automatic
+
+	column approver2_status
+		dataType: string
+		lineageTag: efeb5e6e-48cb-4d28-ba09-d36a1ae54d24
+		summarizeBy: none
+		sourceColumn: approver2_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column approver2_days
+		dataType: double
+		lineageTag: c54d92d6-ece1-418a-92bd-cf720c9a9c7c
+		summarizeBy: sum
+		sourceColumn: approver2_days
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column approver2_sla_days
+		dataType: double
+		lineageTag: 63f217cd-2019-4be7-95bc-0a5629fcd8f4
+		summarizeBy: sum
+		sourceColumn: approver2_sla_days
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column approver2_sla_result
+		dataType: string
+		lineageTag: b029ae5e-3b78-4e1b-94b5-82048ddda7ce
+		summarizeBy: none
+		sourceColumn: approver2_sla_result
+
+		annotation SummarizationSetBy = Automatic
+
+	column approver3
+		dataType: string
+		lineageTag: 2deaee3c-e46b-47b8-9f19-96aa4dd08175
+		summarizeBy: none
+		sourceColumn: approver3
+
+		annotation SummarizationSetBy = Automatic
+
+	column approver3_status
+		dataType: string
+		lineageTag: 8600d4b3-d7b5-4bca-90f9-5982fc6e5f81
+		summarizeBy: none
+		sourceColumn: approver3_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column approver3_days
+		dataType: double
+		lineageTag: ec170d80-c50e-4c46-9e3b-d81b5d02d7ab
+		summarizeBy: sum
+		sourceColumn: approver3_days
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column approver3_sla_days
+		dataType: double
+		lineageTag: f352ca47-8d7e-44c3-ac9e-121556cf1277
+		summarizeBy: sum
+		sourceColumn: approver3_sla_days
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column approver3_sla_result
+		dataType: string
+		lineageTag: 58d50e9d-f388-4b28-a6f3-bfcbd2fd39eb
+		summarizeBy: none
+		sourceColumn: approver3_sla_result
+
+		annotation SummarizationSetBy = Automatic
+
+	column approver4
+		dataType: string
+		lineageTag: 33283d27-1829-49e7-bf15-60a3daf15e25
+		summarizeBy: none
+		sourceColumn: approver4
+
+		annotation SummarizationSetBy = Automatic
+
+	column approver4_status
+		dataType: string
+		lineageTag: 17da312e-a27c-4ab2-9c2d-15a4170a212c
+		summarizeBy: none
+		sourceColumn: approver4_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column approver4_days
+		dataType: double
+		lineageTag: 4a28cb39-9b9c-44f0-be24-b70497d3191f
+		summarizeBy: sum
+		sourceColumn: approver4_days
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column approver4_sla_days
+		dataType: double
+		lineageTag: 475020d2-37e1-41e7-b347-2161bc2d8ade
+		summarizeBy: sum
+		sourceColumn: approver4_sla_days
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column approver4_sla_result
+		dataType: string
+		lineageTag: 140cbbab-9803-4bdc-ae7c-5ff2ef95a15b
+		summarizeBy: none
+		sourceColumn: approver4_sla_result
+
+		annotation SummarizationSetBy = Automatic
+
+	column approver5
+		dataType: string
+		lineageTag: e4d3ddd0-8173-433b-9e13-42b8dfd0b76a
+		summarizeBy: none
+		sourceColumn: approver5
+
+		annotation SummarizationSetBy = Automatic
+
+	column approver5_status
+		dataType: string
+		lineageTag: 262aba27-efd6-4b55-8862-90fd0a6d541e
+		summarizeBy: none
+		sourceColumn: approver5_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column approver5_days
+		dataType: double
+		lineageTag: 4d134a39-a4e6-4732-88df-1c9e013af32f
+		summarizeBy: sum
+		sourceColumn: approver5_days
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column approver5_sla_days
+		dataType: double
+		lineageTag: 76d7301e-dc5e-4da9-9a9f-66daf85cbedc
+		summarizeBy: sum
+		sourceColumn: approver5_sla_days
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column approver5_sla_result
+		dataType: string
+		lineageTag: 43a8bce6-8a37-44a5-a2a6-e6c387582fc4
+		summarizeBy: none
+		sourceColumn: approver5_sla_result
+
+		annotation SummarizationSetBy = Automatic
+
+	column etl_load_date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 53dc53f8-42d9-4883-abd9-17c1135629e6
+		summarizeBy: none
+		sourceColumn: etl_load_date
+
+		variation Variation
+			isDefault
+			relationship: eadee5e5-fb54-4ea3-9318-210cda18feeb
+			defaultHierarchy: LocalDateTable_30ea63bb-4226-43f9-b8bd-4761cf3b811f.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column status_chip(html) =
+			
+			VAR status_chip = dsar_dashboard_summary[status_chip]
+			
+			VAR BackgroundColor =
+			    SWITCH(
+			        status_chip,
+			        "In progress", "#FFF1CC",
+			        "Closed", "#DDF5F5",
+			        "Overdue", "#FFE1E1",
+			        "#FFFFFF"
+			    )
+			
+			VAR TextColor =
+			    SWITCH(
+			        status_chip,
+			        "In progress", "#A66A00",
+			        "Closed", "#008C8C",
+			        "Overdue", "#C62828",
+			        "#333333"
+			    )
+			
+			RETURN
+			"data:image/svg+xml;utf8," &
+			"<svg xmlns='http://www.w3.org/2000/svg' width='130' height='40'>" &
+			"<rect x='5' y='5' width='120' height='30' rx='15' fill='" &
+			BackgroundColor &
+			"'/>" &
+			"<text x='65' y='25' text-anchor='middle' " &
+			"font-family='Segoe UI' font-size='15' font-weight='600' fill='" &
+			TextColor &
+			"'>" &
+			status_chip &
+			"</text>" &
+			"</svg>"
+		lineageTag: e1dd9e45-f5d4-4741-88b2-e8d3846f3478
+		dataCategory: ImageUrl
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dsar_dashboard_summary = m
+		mode: import
+		source =
+				let
+				    Source = MySQL.Database(Host, Database, [ReturnSingleDatabase=true]),
+				    ovaledgedb_dsar_dashboard_summary = Source{[Schema="ovaledgedb",Item="dsar_dashboard_summary"]}[Data]
+				in
+				    ovaledgedb_dsar_dashboard_summary
+

@@ -1,0 +1,14 @@
+expression Host = "amtrust-reportingdb-instance.cihmkg6oq31q.us-east-1.rds.amazonaws.com" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: 9aa78725-6703-4e5e-8c17-609f1aab2e3c
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Text
+
+expression Database = "ovaledgedb" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: fcad472e-ad2b-4016-8487-4808ce9369ed
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Text
+

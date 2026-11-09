@@ -1,0 +1,507 @@
+table Metadata_change_log
+	lineageTag: 049955a2-8d86-43be-ad98-79bea39a1988
+
+	measure Added =
+			
+			VAR LatestScan =
+			    CALCULATE (
+			        MAX ( METADATA_CHANGE_LOG[SCAN_DATE] ),
+			        ALL ( METADATA_CHANGE_LOG )
+			    )
+			RETURN
+			    CALCULATE (
+			        COUNTROWS ( METADATA_CHANGE_LOG ),
+			        METADATA_CHANGE_LOG[SCAN_DATE] = LatestScan,
+			        METADATA_CHANGE_LOG[CHANGE_TYPE] = "Added"
+			    )
+		formatString: 0
+		lineageTag: 2d2c6cd3-7042-47de-a401-464aa7005055
+
+	measure 'Added Changes' =
+			
+			CALCULATE (
+			    COUNTROWS ( METADATA_CHANGE_LOG ),
+			    KEEPFILTERS (
+			        METADATA_CHANGE_LOG[CHANGE_TYPE] = "Added"
+			    )
+			)
+		formatString: 0
+		lineageTag: af9fd1d7-5bf2-48ce-83da-4d7c85ca0e9f
+
+	measure 'CDE Flagged Changes' =
+			
+			VAR LatestScan =
+			    CALCULATE (
+			        MAX ( METADATA_CHANGE_LOG[SCAN_DATE] ),
+			        ALL ( METADATA_CHANGE_LOG )
+			    )
+			RETURN
+			    CALCULATE (
+			        COUNTROWS ( METADATA_CHANGE_LOG ),
+			        METADATA_CHANGE_LOG[SCAN_DATE] = LatestScan,
+			        METADATA_CHANGE_LOG[IS_CDE] = "Yes"
+			    )
+		formatString: 0
+		lineageTag: 662b2a8b-c716-46c4-a1dc-3a4f86ac48be
+
+	measure 'CDE Flagged Changes(detailed View)' =
+			
+			CALCULATE (
+			    COUNTROWS ( METADATA_CHANGE_LOG ),
+			    METADATA_CHANGE_LOG[IS_CDE] = "Yes"
+			)
+		formatString: 0
+		lineageTag: c375c760-b378-45db-a49e-fa87451e07d3
+
+	measure 'CDE Impacted' =
+			
+			VAR CDECount =
+			    CALCULATE (
+			        COUNTROWS ( METADATA_CHANGE_LOG ),
+			        METADATA_CHANGE_LOG[IS_CDE] = "Yes"
+			    )
+			RETURN
+			    IF ( CDECount > 0, "Yes", "No" )
+		lineageTag: cafc9457-3c0b-4ac0-bb09-60358952bad2
+
+	measure 'CDE-flagged / downstream impacted' = [CDE Flagged Changes(detailed View)] & " / " & [Downstream Assets Impacted(detailed View)]
+		lineageTag: d88491ce-bcdd-44f1-8a29-9bb30b7e3730
+
+	measure 'Downstream Assets Impacted' =
+			
+			VAR LatestScan =
+			    CALCULATE (
+			        MAX ( METADATA_CHANGE_LOG[SCAN_DATE] ),
+			        ALL ( METADATA_CHANGE_LOG )
+			    )
+			RETURN
+			    CALCULATE (
+			        SUM ( METADATA_CHANGE_LOG[DOWNSTREAM_ASSETS_COUNT] ),
+			        METADATA_CHANGE_LOG[SCAN_DATE] = LatestScan
+			    )
+		formatString: 0
+		lineageTag: c5e31729-1bcc-4a3f-8ba5-fa2cb31f3cee
+
+	measure 'Downstream Assets Impacted(detailed View)' =
+			
+			SUMX (
+			    METADATA_CHANGE_LOG,
+			    COALESCE (
+			        METADATA_CHANGE_LOG[DOWNSTREAM_ASSETS_COUNT],
+			        0
+			    )
+			)
+		formatString: 0
+		lineageTag: 9945000d-b5bc-4e76-9e59-c44cf9541902
+
+	measure 'Changes in Source' =
+			
+			COUNTROWS ( METADATA_CHANGE_LOG )
+		formatString: 0
+		lineageTag: 077aaa8d-c805-42b1-9ee7-0d1ffed3776f
+
+	measure 'Changes Since Last Scan' =
+			
+			VAR LatestScan =
+			    CALCULATE (
+			        MAX ( METADATA_CHANGE_LOG[SCAN_DATE] ),
+			        ALL ( METADATA_CHANGE_LOG )
+			    )
+			
+			VAR PreviousScan =
+			    CALCULATE (
+			        MAX ( METADATA_CHANGE_LOG[SCAN_DATE] ),
+			        FILTER (
+			            ALL ( METADATA_CHANGE_LOG ),
+			            METADATA_CHANGE_LOG[SCAN_DATE] < LatestScan
+			        )
+			    )
+			
+			RETURN
+			    "Changes between "
+			        & FORMAT ( PreviousScan, "dd-MMM-yyyy" )
+			        & " and "
+			        & FORMAT ( LatestScan, "dd-MMM-yyyy" )
+		lineageTag: d3f24cb7-e519-499b-93c2-8e8f42f58331
+
+	measure Label = "Showing: " & SELECTEDVALUE(Metadata_change_log[DATA_SOURCE])
+		lineageTag: aabb95eb-013c-4cdf-a918-d4e904884564
+
+	measure 'Latest Scan' =
+			
+			VAR LatestScanDate =
+			    CALCULATE (
+			        MAX ( METADATA_CHANGE_LOG[SCAN_DATE] ),
+			        ALL ( METADATA_CHANGE_LOG )
+			    )
+			RETURN
+			    IF (
+			        MAX ( METADATA_CHANGE_LOG[SCAN_DATE] ) = LatestScanDate,
+			        1,
+			        0
+			    )
+		formatString: 0
+		lineageTag: 23ba46eb-5ec7-4949-a867-321c2410a239
+
+	measure Modified =
+			
+			VAR LatestScan =
+			    CALCULATE (
+			        MAX ( METADATA_CHANGE_LOG[SCAN_DATE] ),
+			        ALL ( METADATA_CHANGE_LOG )
+			    )
+			RETURN
+			    CALCULATE (
+			        COUNTROWS ( METADATA_CHANGE_LOG ),
+			        METADATA_CHANGE_LOG[SCAN_DATE] = LatestScan,
+			        METADATA_CHANGE_LOG[CHANGE_TYPE] = "Modified"
+			    )
+		formatString: 0
+		lineageTag: bed89f8f-6bba-449e-ade9-082b6ed49828
+
+	measure 'Modified Changes' =
+			
+			CALCULATE (
+			    COUNTROWS ( METADATA_CHANGE_LOG ),
+			    KEEPFILTERS (
+			        METADATA_CHANGE_LOG[CHANGE_TYPE] = "Modified"
+			    )
+			)
+		formatString: 0
+		lineageTag: cbba1ed8-1f02-42e7-aceb-b90190fd791e
+
+	measure Removed =
+			
+			VAR LatestScan =
+			    CALCULATE (
+			        MAX ( METADATA_CHANGE_LOG[SCAN_DATE] ),
+			        ALL ( METADATA_CHANGE_LOG )
+			    )
+			RETURN
+			    CALCULATE (
+			        COUNTROWS ( METADATA_CHANGE_LOG ),
+			        METADATA_CHANGE_LOG[SCAN_DATE] = LatestScan,
+			        METADATA_CHANGE_LOG[CHANGE_TYPE] = "Removed"
+			    )
+		formatString: 0
+		lineageTag: 4d6535b9-bc79-4cd5-98bb-675f2bb9b78c
+
+	measure 'Removed Changes' =
+			
+			CALCULATE (
+			    COUNTROWS ( METADATA_CHANGE_LOG ),
+			    KEEPFILTERS (
+			        METADATA_CHANGE_LOG[CHANGE_TYPE] = "Removed"
+			    )
+			)
+		formatString: 0
+		lineageTag: 4a4cc5c0-1995-4e9d-9a63-b21dbc3c351a
+
+	measure 'Sources Changed' =
+			
+			VAR MaxLastScanDate =
+			    CALCULATE (
+			        MAX ( METADATA_CHANGE_LOG[LAST_SCAN_DATE] ),
+			        ALL ( METADATA_CHANGE_LOG )
+			    )
+			RETURN
+			    CALCULATE (
+			        DISTINCTCOUNT ( METADATA_CHANGE_LOG[DATA_SOURCE] ),
+			        METADATA_CHANGE_LOG[CHANGE_DATE] > MaxLastScanDate
+			    )
+		formatString: 0
+		lineageTag: fc1d476e-5c0d-4d24-8754-e535e081762a
+
+	measure 'Sources Scanned' =
+			
+			DISTINCTCOUNT ( METADATA_CHANGE_LOG[DATA_SOURCE] )
+		formatString: 0
+		lineageTag: 37ed3cb7-e45d-4484-b5f6-b638d85c6ebb
+
+	measure 'Total Changes Detected' =
+			
+			VAR LatestScan =
+			    CALCULATE (
+			        MAX ( METADATA_CHANGE_LOG[SCAN_DATE] ),
+			        ALL ( METADATA_CHANGE_LOG )
+			    )
+			RETURN
+			    CALCULATE (
+			        COUNTROWS ( METADATA_CHANGE_LOG ),
+			        METADATA_CHANGE_LOG[SCAN_DATE] = LatestScan
+			    )
+		formatString: 0
+		lineageTag: 0e23657d-95ea-4874-a1af-f777b2a74ada
+
+	column CHANGE_ID
+		dataType: int64
+		formatString: 0
+		lineageTag: 00249d2b-8d43-4abf-ad20-c2ccf17f0056
+		summarizeBy: count
+		sourceColumn: CHANGE_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column DATA_SOURCE
+		dataType: string
+		lineageTag: 30adc084-969a-4290-8916-9e132d6b900b
+		summarizeBy: none
+		sourceColumn: DATA_SOURCE
+
+		annotation SummarizationSetBy = Automatic
+
+	column SCHEMA_NAME
+		dataType: string
+		lineageTag: 2167bc7a-f7e0-45e5-8abf-c36d51b226d2
+		summarizeBy: none
+		sourceColumn: SCHEMA_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column OBJECT_NAME
+		dataType: string
+		lineageTag: 128d60e4-770b-4d6f-8677-7981acfe4f4f
+		summarizeBy: none
+		sourceColumn: OBJECT_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column COLUMN_NAME
+		dataType: string
+		lineageTag: 0fcd61c4-bdd6-45c1-a9cf-e2baa8c1bc20
+		summarizeBy: none
+		sourceColumn: COLUMN_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column CHANGE_TYPE
+		dataType: string
+		lineageTag: f17fec8f-535f-49c8-bb09-95310f9bec64
+		summarizeBy: none
+		sourceColumn: CHANGE_TYPE
+
+		annotation SummarizationSetBy = Automatic
+
+	column CHANGE_DETAIL
+		dataType: string
+		lineageTag: 650b27a6-4b42-438f-805b-744c37361614
+		summarizeBy: none
+		sourceColumn: CHANGE_DETAIL
+
+		annotation SummarizationSetBy = Automatic
+
+	column OLD_DATA_TYPE
+		dataType: string
+		lineageTag: 0abb924a-dcf5-4410-b391-c3f03d1c7de1
+		summarizeBy: none
+		sourceColumn: OLD_DATA_TYPE
+
+		annotation SummarizationSetBy = Automatic
+
+	column NEW_DATA_TYPE
+		dataType: string
+		lineageTag: aacecf5c-09a7-453b-b40f-ad94884425c4
+		summarizeBy: none
+		sourceColumn: NEW_DATA_TYPE
+
+		annotation SummarizationSetBy = Automatic
+
+	column LENGTH_CHANGED
+		dataType: string
+		lineageTag: 84a831e6-3821-45b7-b51c-47d0172f6d01
+		summarizeBy: none
+		sourceColumn: LENGTH_CHANGED
+
+		annotation SummarizationSetBy = Automatic
+
+	column NULLABILITY_CHANGED
+		dataType: string
+		lineageTag: 1168fa63-a53b-445a-83b5-e5bf35f1ff01
+		summarizeBy: none
+		sourceColumn: NULLABILITY_CHANGED
+
+		annotation SummarizationSetBy = Automatic
+
+	column DESCRIPTION
+		dataType: string
+		lineageTag: 7f6353e5-8072-48a2-b1f1-040aa77b10ed
+		summarizeBy: none
+		sourceColumn: DESCRIPTION
+
+		annotation SummarizationSetBy = Automatic
+
+	column IS_CDE
+		dataType: string
+		lineageTag: d17b47ef-6aa1-4696-884b-d84d006afd87
+		summarizeBy: none
+		sourceColumn: IS_CDE
+
+		annotation SummarizationSetBy = Automatic
+
+	column DOWNSTREAM_LINEAGE
+		dataType: string
+		lineageTag: fc74a350-e499-4e12-8df1-6398fe12414c
+		summarizeBy: none
+		sourceColumn: DOWNSTREAM_LINEAGE
+
+		annotation SummarizationSetBy = Automatic
+
+	column DOWNSTREAM_ASSETS
+		dataType: string
+		lineageTag: e404afee-c59a-4f9d-961c-af37303daae8
+		summarizeBy: none
+		sourceColumn: DOWNSTREAM_ASSETS
+
+		annotation SummarizationSetBy = Automatic
+
+	column DOWNSTREAM_ASSETS_COUNT
+		dataType: int64
+		formatString: 0
+		lineageTag: 854f4a57-7576-477c-8e27-552aa4315ac6
+		summarizeBy: sum
+		sourceColumn: DOWNSTREAM_ASSETS_COUNT
+
+		annotation SummarizationSetBy = Automatic
+
+	column CHANGE_DATE
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 0d2dabe4-5895-4998-a688-32a77e4d85a7
+		summarizeBy: none
+		sourceColumn: CHANGE_DATE
+
+		variation Variation
+			isDefault
+			relationship: 8bca9db5-1a5d-4a45-bd98-5586f8a9c50e
+			defaultHierarchy: LocalDateTable_0bc69a33-3e88-41ea-9419-d2321c055fde.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column SCAN_DATE
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 5f99fd86-c370-4cee-aa84-e0371bb40676
+		summarizeBy: none
+		sourceColumn: SCAN_DATE
+
+		variation Variation
+			isDefault
+			relationship: cd4a74d2-13cd-4549-9f60-daddbee6aa73
+			defaultHierarchy: LocalDateTable_ddfd99cb-e7f2-482e-a196-32bda57da6ef.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column LAST_SCAN_DATE
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 4b5cd85c-6260-4d95-ae40-28cdc0e4f919
+		summarizeBy: none
+		sourceColumn: LAST_SCAN_DATE
+
+		variation Variation
+			isDefault
+			relationship: 10d81c09-c187-4e6d-b3e0-31a32e645636
+			defaultHierarchy: LocalDateTable_7dae7115-eab3-4f8e-90ec-4b56e1ecec7e.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column ETL_LOAD_DATE
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: d63ebc33-ce90-4db1-bbc2-d3c7285d7522
+		summarizeBy: none
+		sourceColumn: ETL_LOAD_DATE
+
+		variation Variation
+			isDefault
+			relationship: 2b01f893-37f9-428a-a161-992310bf4ac8
+			defaultHierarchy: LocalDateTable_9dfca4ed-8905-4f66-bda3-956fb2ccb211.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Change Badge' =
+			
+			VAR ChangeValue = Metadata_change_log[CHANGE_TYPE]
+			
+			VAR BackgroundColor =
+			    SWITCH(
+			        ChangeValue,
+			        "Modified", "#FFF1CC",
+			        "Added", "#DDF5F5",
+			        "Removed", "#FFE1E1",
+			        "#FFFFFF"
+			    )
+			
+			VAR TextColor =
+			    SWITCH(
+			        ChangeValue,
+			        "Modified", "#A66A00",
+			        "Added", "#008C8C",
+			        "Removed", "#C62828",
+			        "#333333"
+			    )
+			
+			RETURN
+			"data:image/svg+xml;utf8," &
+			"<svg xmlns='http://www.w3.org/2000/svg' width='130' height='40'>" &
+			"<rect x='5' y='5' width='120' height='30' rx='15' fill='" &
+			BackgroundColor &
+			"'/>" &
+			"<text x='65' y='25' text-anchor='middle' " &
+			"font-family='Segoe UI' font-size='15' font-weight='600' fill='" &
+			TextColor &
+			"'>" &
+			ChangeValue &
+			"</text>" &
+			"</svg>"
+		lineageTag: d1f6ac16-4169-46d7-aea4-1b583ddb8cab
+		dataCategory: ImageUrl
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Latest 2 Scan Cycles' = ```
+			
+			VAR LatestScan =
+			    CALCULATE (
+			        MAX ( METADATA_CHANGE_LOG[SCAN_DATE] ),
+			        ALL ( METADATA_CHANGE_LOG )
+			    )
+			
+			VAR PreviousScan =
+			    CALCULATE (
+			        MAX ( METADATA_CHANGE_LOG[SCAN_DATE] ),
+			        FILTER (
+			            ALL ( METADATA_CHANGE_LOG ),
+			            METADATA_CHANGE_LOG[SCAN_DATE] < LatestScan
+			        )
+			    )
+			
+			RETURN
+			    IF (
+			        METADATA_CHANGE_LOG[SCAN_DATE] = LatestScan
+			            || METADATA_CHANGE_LOG[SCAN_DATE] = PreviousScan,
+			        1,
+			        0
+			    )
+			
+			```
+		formatString: 0
+		lineageTag: 04b7c91a-acf6-4b6e-bb33-7445c7b58f91
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Metadata_change_log = m
+		mode: import
+		source =
+				let
+				    Source = MySQL.Database(Host, Database, [ReturnSingleDatabase=true]),
+				    ovaledgedb_METADATA_CHANGE_LOG = Source{[Schema="ovaledgedb",Item="METADATA_CHANGE_LOG"]}[Data]
+				in
+				    ovaledgedb_METADATA_CHANGE_LOG
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

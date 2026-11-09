@@ -1,0 +1,28 @@
+table Privacy_Date_filter
+	lineageTag: 2bdc522e-5b39-4d3d-8bb5-4d09d29291ad
+
+	column Date
+		formatString: yyyy-mm-dd
+		lineageTag: 5b948f2c-0614-4075-b348-1a85b9f1d245
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: date[Date]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column Type
+		lineageTag: 1db5d2b8-d7ea-46fa-8e82-b7a149799b34
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Type]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Privacy_Date_filter = calculated
+		mode: import
+		source = UNION(ADDCOLUMNS(DATESBETWEEN('date'[Date],Today()-30,TODAY()),"Type","Last30days"),ADDCOLUMNS(DATESBETWEEN('date'[Date],Today()-60,TODAY()),"Type","Last60days"),ADDCOLUMNS(DATESBETWEEN('date'[Date],Today()-90,TODAY()),"Type","Last90days"))
+
+	annotation PBI_Id = 2066f172e3484c33b249cb4366f259d3
+

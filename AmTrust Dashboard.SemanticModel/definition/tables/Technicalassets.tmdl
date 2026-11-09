@@ -1,0 +1,207 @@
+table Technicalassets
+	lineageTag: 5be89353-6fcd-4772-94e3-64033bbe6044
+
+	measure Columns =
+			
+			CALCULATE ( COUNTROWS ( Technicalassets ),KEEPFILTERS( Technicalassets[Asset_type] = "Table Column" ))
+		formatString: 0
+		lineageTag: fa3b2451-9131-4407-83e2-c8d9866d917e
+
+	measure 'Data Sources' =
+			
+			DISTINCTCOUNT ( Technicalassets[Datasource] )
+		formatString: 0
+		lineageTag: a78e9a04-1f32-4da1-b536-2b0bb346c604
+
+	measure Databases = ```
+			
+			CALCULATE ( COUNTROWS ( Technicalassets ), KEEPFILTERS (Technicalassets[Asset_type] = "Database" ) )
+			
+			```
+		formatString: 0
+		lineageTag: 214610d9-0dc3-461c-ac8a-05c55c080809
+
+	measure 'Power BI Reports' = ```
+			
+			CALCULATE ( COUNTROWS ( Technicalassets ), KEEPFILTERS(Technicalassets[Asset_type] = "PowerBI" ))
+			
+			```
+		formatString: 0
+		lineageTag: bc3156a4-7560-4606-8990-ad30ff82b414
+
+	measure 'PowerBI DataModel' =
+			
+			CALCULATE ( COUNTROWS ( Technicalassets ), KEEPFILTERS(Technicalassets[Asset_type] = "PowerBIDataModel" ))
+		formatString: 0
+		lineageTag: 79b30162-e768-406f-976a-9c7dab97c810
+
+	measure 'PowerBI DAX' =
+			
+			CALCULATE ( COUNTROWS ( Technicalassets ), KEEPFILTERS(Technicalassets[Asset_type] = "PowerBIDAX" ))
+		formatString: 0
+		lineageTag: 51e9b78d-a50c-43af-b81c-52c3a39b330f
+
+	measure 'Scan Recency Ratio' = ```
+			
+			VAR MaxDays = 45
+			VAR CurrentDays = MAX ( connector_scan_health[days_since_last_scan] )
+			RETURN
+			DIVIDE ( MIN ( CurrentDays, MaxDays ), MaxDays )
+			
+			```
+		lineageTag: a724e8bf-c13b-4add-afde-984afe7022d2
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Scan Status Colour' =
+			
+			SWITCH (
+			    SELECTEDVALUE ( connector_scan_health[scan_status] ),
+			    "Healthy",        "#2E7D32",
+			    "Overdue",        "#E07B0A",
+			    "Stale",          "#C0392B",
+			    "Never Scanned",  "#7F8C8D",
+			    "#7F8C8D"
+			)
+		lineageTag: 070b427f-68c8-4aa0-9d98-90cedeee9f26
+
+	measure Schemas =
+			
+			CALCULATE ( COUNTROWS ( Technicalassets ), KEEPFILTERS (Technicalassets[Asset_type] = "Schema" ))
+		formatString: 0
+		lineageTag: 427ac2e4-9704-4b21-9eb0-4f9adb8bdbb3
+
+	measure 'Stored Procedures' = ```
+			
+			CALCULATE ( COUNTROWS ( Technicalassets ), KEEPFILTERS(Technicalassets[Asset_type] = "StoredProcedure" ))
+			
+			```
+		formatString: 0
+		lineageTag: 432b4f8f-0113-45a4-a8ac-97cd04e2e768
+
+	measure 'Tableau Worksheets' = ```
+			
+			CALCULATE ( COUNTROWS ( Technicalassets ), KEEPFILTERS(Technicalassets[Asset_type] = "Tableau" ))
+			
+			```
+		formatString: 0
+		lineageTag: 2e9c8ce5-8db1-4fdb-893f-bab1430c0b85
+
+	measure Tables =
+			
+			CALCULATE ( COUNTROWS ( Technicalassets ), KEEPFILTERS (Technicalassets[Asset_type] = "Table" ))
+		formatString: 0
+		lineageTag: 49522adf-8fef-4c8e-90f8-d4f78733d3e9
+
+	measure 'Total Assets' =
+			
+			COUNTROWS ( Technicalassets )
+		formatString: 0
+		lineageTag: 59d41491-6bbc-469f-b9bd-491aebe600fc
+
+	measure Views =
+			
+			CALCULATE ( COUNTROWS ( Technicalassets ), KEEPFILTERS(Technicalassets[Asset_type] = "View" ))
+		formatString: 0
+		lineageTag: b26a5472-7df0-4883-9138-14f5dbff43f4
+
+	measure 'Scan Health Badge' =
+			
+			"data:image/svg+xml;utf8," &
+			"<svg xmlns='http://www.w3.org/2000/svg' width='180' height='28' viewBox='0 0 180 28'>" &
+			"<g transform='translate(2,2) scale(0.9)' fill='none' stroke='%23B45309' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>" &
+			"<rect x='4' y='11' width='16' height='10' rx='2'/>" &
+			"<path d='M8 11V7a4 4 0 0 1 8 0v4'/>" &
+			"</g>" &
+			"<text x='28' y='18' font-family='Segoe UI, Arial, sans-serif' font-size='12' font-weight='bold' fill='%23000000'>Not affected by slicers</text>" &
+			"</svg>"
+		lineageTag: 92ce0ad8-d4ea-43d0-99c2-ffeeb537e750
+		dataCategory: ImageUrl
+
+	column id
+		dataType: int64
+		formatString: 0
+		lineageTag: 7f17f871-37ec-4b2a-a657-f22765b3f71a
+		summarizeBy: sum
+		sourceColumn: id
+
+		annotation SummarizationSetBy = Automatic
+
+	column Asset_type
+		dataType: string
+		lineageTag: 18d2b4d5-3a9a-4a7f-a96d-ff1b16557384
+		summarizeBy: none
+		sourceColumn: Asset_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column Datasource_type
+		dataType: string
+		lineageTag: 51fa4935-5b28-4e7a-8583-890f88d7cdd2
+		summarizeBy: none
+		sourceColumn: Datasource_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column Datasource
+		dataType: string
+		lineageTag: 9f47b40c-052a-447e-aa62-86798f3bec66
+		summarizeBy: none
+		sourceColumn: Datasource
+
+		annotation SummarizationSetBy = Automatic
+
+	column object_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 4349c82f-dac3-42eb-acd5-203a6cdaf975
+		summarizeBy: sum
+		sourceColumn: object_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column object_name
+		dataType: string
+		lineageTag: d7952b7e-ba5a-4232-98c0-50b10fd1e125
+		summarizeBy: none
+		sourceColumn: object_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column parent_object
+		dataType: string
+		lineageTag: f30380c4-3f0e-45f7-9eba-7cc83bb01a69
+		summarizeBy: none
+		sourceColumn: parent_object
+
+		annotation SummarizationSetBy = Automatic
+
+	column etl_load_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: c41125bc-13e2-46f2-87ab-affcf0e5420e
+		summarizeBy: none
+		sourceColumn: etl_load_date
+
+		variation Variation
+			isDefault
+			relationship: a1181bb7-dda6-4ee3-9420-df255058dfae
+			defaultHierarchy: LocalDateTable_221d57a0-f61d-41f1-853e-8ed12598e343.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition Technicalassets = m
+		mode: import
+		source =
+				let
+				    Source = MySQL.Database(Host, Database, [ReturnSingleDatabase=true]),
+				    ovaledgedb_Technicalassets = Source{[Schema="ovaledgedb",Item="Technicalassets"]}[Data]
+				in
+				    ovaledgedb_Technicalassets
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

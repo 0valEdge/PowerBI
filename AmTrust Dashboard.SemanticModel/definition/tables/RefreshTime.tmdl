@@ -1,0 +1,28 @@
+table RefreshTime
+	lineageTag: 46eaaebd-fc23-41e6-a8f0-75d38beb8176
+
+	measure 'Last Refreshed time' = "Last refreshed: " & FORMAT(MAX(RefreshTime[Last Refreshed]), "MMM D, YYYY, h:mm AM/PM")
+		lineageTag: 211caf10-f664-44fc-bf5e-5c0694666c4a
+
+	column 'Last Refreshed'
+		dataType: string
+		lineageTag: d86c7198-a300-4309-90c2-3ec62565f47b
+		summarizeBy: none
+		sourceColumn: Last Refreshed
+
+		annotation SummarizationSetBy = Automatic
+
+	partition RefreshTime = m
+		mode: import
+		source =
+				let
+				    Source = DateTime.LocalNow(),
+				    #"Converted to Table" = #table(1, {{Source}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Converted to Table",{{"Column1", "Last Refreshed"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

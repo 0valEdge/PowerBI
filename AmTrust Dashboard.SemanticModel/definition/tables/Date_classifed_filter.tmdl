@@ -1,0 +1,28 @@
+table Date_classifed_filter
+	lineageTag: e8c5e08f-b6ca-4efb-93df-d210c671636e
+
+	column Date
+		formatString: yyyy-mm-dd
+		lineageTag: 0c78c73f-a286-43e2-8b42-9d2eef5af770
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Date[Date]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column Type
+		lineageTag: b1860385-dffa-475b-a3c2-9c828f2575e3
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Type]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Date_classifed_filter = calculated
+		mode: import
+		source = UNION(ADDCOLUMNS(DATESBETWEEN('date'[Date],Today()-30,TODAY()),"Type","Last30days"),ADDCOLUMNS(DATESBETWEEN('date'[Date],Today()-60,TODAY()),"Type","Last60days"),ADDCOLUMNS(DATESBETWEEN('date'[Date],Today()-90,TODAY()),"Type","Last90days"))
+
+	annotation PBI_Id = d4a1f2b8b34c409d83a55e1a61c23df6
+

@@ -1,0 +1,83 @@
+table procedure_summary
+	lineageTag: bcdc6852-75ee-4f9a-9cc8-fad4e0aa524d
+
+	column ID
+		dataType: int64
+		formatString: 0
+		lineageTag: faaeb9fc-0380-48ab-8d89-c7aaa5c8566a
+		summarizeBy: count
+		sourceColumn: ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Datasource
+		dataType: string
+		lineageTag: 763bc9d3-de26-4519-ae0d-e385788a17a1
+		summarizeBy: none
+		sourceColumn: Datasource
+
+		annotation SummarizationSetBy = Automatic
+
+	column storedprocedures
+		dataType: int64
+		formatString: 0
+		lineageTag: 6f542186-ee5d-4e9d-90bf-a0f85cc15b36
+		summarizeBy: sum
+		sourceColumn: storedprocedures
+
+		annotation SummarizationSetBy = Automatic
+
+	column Lineageparsed
+		dataType: int64
+		formatString: 0
+		lineageTag: fd75ba37-a7ed-4b76-9128-979a8bf1e9ea
+		summarizeBy: sum
+		sourceColumn: Lineageparsed
+
+		annotation SummarizationSetBy = Automatic
+
+	column unprocessedQueries
+		dataType: int64
+		formatString: 0
+		lineageTag: eaa67576-5a44-4bad-85d4-7f3b1d9cb22f
+		summarizeBy: sum
+		sourceColumn: unprocessedQueries
+
+		annotation SummarizationSetBy = Automatic
+
+	column lastupdatedcount
+		dataType: int64
+		formatString: 0
+		lineageTag: 67afdec3-1cb8-4710-a215-464bbd3102fd
+		summarizeBy: sum
+		sourceColumn: lastupdatedcount
+
+		annotation SummarizationSetBy = Automatic
+
+	column etlloaddate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 6623db66-ab65-466f-a338-72a6e3ebbf66
+		summarizeBy: none
+		sourceColumn: etlloaddate
+
+		variation Variation
+			isDefault
+			relationship: 41e5d033-2d40-414c-963a-9194a2b9f014
+			defaultHierarchy: LocalDateTable_bf881605-11de-4603-b425-e8c7d95897bc.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition procedure_summary = m
+		mode: import
+		source =
+				let
+				    Source = MySQL.Database(Host, Database, [ReturnSingleDatabase=true]),
+				    ovaledgedb_procedure_summary = Source{[Schema="ovaledgedb",Item="procedure_summary"]}[Data]
+				in
+				    ovaledgedb_procedure_summary
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Exception
+

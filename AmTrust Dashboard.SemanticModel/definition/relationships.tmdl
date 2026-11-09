@@ -1,0 +1,110 @@
+relationship 8bca9db5-1a5d-4a45-bd98-5586f8a9c50e
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Metadata_change_log.CHANGE_DATE
+	toColumn: LocalDateTable_0bc69a33-3e88-41ea-9419-d2321c055fde.Date
+
+relationship cd4a74d2-13cd-4549-9f60-daddbee6aa73
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Metadata_change_log.SCAN_DATE
+	toColumn: LocalDateTable_ddfd99cb-e7f2-482e-a196-32bda57da6ef.Date
+
+relationship 10d81c09-c187-4e6d-b3e0-31a32e645636
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Metadata_change_log.LAST_SCAN_DATE
+	toColumn: LocalDateTable_7dae7115-eab3-4f8e-90ec-4b56e1ecec7e.Date
+
+relationship 2b01f893-37f9-428a-a161-992310bf4ac8
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Metadata_change_log.ETL_LOAD_DATE
+	toColumn: LocalDateTable_9dfca4ed-8905-4f66-bda3-956fb2ccb211.Date
+
+relationship e4b6e0a4-acff-43d8-ad3a-2983a67db838
+	joinOnDateBehavior: datePartOnly
+	fromColumn: classification_report.etl_load_date
+	toColumn: LocalDateTable_40fa4631-93a0-40b6-8a7a-8b41a6fbdc54.Date
+
+relationship a1181bb7-dda6-4ee3-9420-df255058dfae
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Technicalassets.etl_load_date
+	toColumn: LocalDateTable_221d57a0-f61d-41f1-853e-8ed12598e343.Date
+
+relationship c378cce7-8819-4cbd-b0ae-de9dbcc7fea5
+	joinOnDateBehavior: datePartOnly
+	fromColumn: connector_scan_health.last_success
+	toColumn: LocalDateTable_89bceb83-54c7-4eee-bb39-ea04277602c0.Date
+
+relationship 680706b4-6b67-40c2-bb7d-af907b53471b
+	joinOnDateBehavior: datePartOnly
+	fromColumn: connector_scan_health.last_attempt
+	toColumn: LocalDateTable_c5f92e6f-ae17-44c2-b9cc-ea33982d5665.Date
+
+relationship 41e5d033-2d40-414c-963a-9194a2b9f014
+	joinOnDateBehavior: datePartOnly
+	fromColumn: procedure_summary.etlloaddate
+	toColumn: LocalDateTable_bf881605-11de-4603-b425-e8c7d95897bc.Date
+
+relationship ea925070-5663-4070-b071-87d521b795ed
+	joinOnDateBehavior: datePartOnly
+	fromColumn: proc_downstream_lineage_summary.LastModified
+	toColumn: LocalDateTable_21a5e032-05eb-4fb7-ae3c-91ec319ae102.Date
+
+relationship AutoDetected_ec622e75-0f7a-4f85-895f-0fdd24f2fcf1
+	crossFilteringBehavior: bothDirections
+	fromColumn: proc_downstream_lineage_summary.Datasource
+	toColumn: procedure_summary.Datasource
+
+relationship a4f59b93-4438-4318-9c4b-d9f6739620f8
+	joinOnDateBehavior: datePartOnly
+	fromColumn: date.Date
+	toColumn: LocalDateTable_826ca948-7e67-4de3-9bce-19b98bdaed76.Date
+
+relationship b0164c6a-8dc4-5c69-ec94-b4e3c4467284
+	crossFilteringBehavior: bothDirections
+	fromColumn: classification_report.dateclassified
+	toColumn: date.Date
+
+relationship 47387792-bcb8-5615-a7c4-c6a5f55abfb2
+	crossFilteringBehavior: bothDirections
+	fromColumn: Date_classifed_filter.Date
+	toColumn: date.Date
+
+relationship 5752d70f-fc58-ba7e-11c4-cba3b1702d71
+	crossFilteringBehavior: bothDirections
+	fromColumn: Technicalassets.Datasource
+	toColumn: connector_scan_health.connectionname
+
+relationship d1608d78-ba1b-4532-b4fa-cacc7e5ad996
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dsar_dashboard_summary.last_modified_date
+	toColumn: LocalDateTable_fce56c98-841e-4669-84c6-5ff558ce450b.Date
+
+relationship 0a27f71a-5fd5-4b98-97f2-15e6791ddcb2
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dsar_dashboard_summary.pending_since
+	toColumn: LocalDateTable_f985daea-c3fe-4e35-bf09-d5850532884f.Date
+
+relationship fb777ed7-a001-4b98-b57b-3291921f5b81
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dsar_dashboard_summary.first_approved_date
+	toColumn: LocalDateTable_571de277-3e8a-4143-b9ce-f6e8a1455f45.Date
+
+relationship aed9ebc4-6bbc-4059-853d-ad3748d5f115
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dsar_dashboard_summary.final_approved_date
+	toColumn: LocalDateTable_066e367b-44cf-4e91-bfae-fb614407df16.Date
+
+relationship eadee5e5-fb54-4ea3-9318-210cda18feeb
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dsar_dashboard_summary.etl_load_date
+	toColumn: LocalDateTable_30ea63bb-4226-43f9-b8bd-4761cf3b811f.Date
+
+relationship ef58d925-4109-6527-3ebb-20005b19478c
+	crossFilteringBehavior: bothDirections
+	fromColumn: Privacy_Date_filter.Date
+	toColumn: date.Date
+
+relationship 23b5d072-f3d8-9043-c439-e3e59e1407f9
+	crossFilteringBehavior: bothDirections
+	fromColumn: dsar_dashboard_summary.created_date
+	toColumn: date.Date
+
