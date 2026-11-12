@@ -107,16 +107,11 @@ table Metadata_change_log
 			        MAX ( METADATA_CHANGE_LOG[SCAN_DATE] ),
 			        ALL ( METADATA_CHANGE_LOG )
 			    )
-			
 			VAR PreviousScan =
 			    CALCULATE (
-			        MAX ( METADATA_CHANGE_LOG[SCAN_DATE] ),
-			        FILTER (
-			            ALL ( METADATA_CHANGE_LOG ),
-			            METADATA_CHANGE_LOG[SCAN_DATE] < LatestScan
+			        MAX ( Metadata_change_log[LAST_SCAN_DATE] ),
+			            ALL ( METADATA_CHANGE_LOG )
 			        )
-			    )
-			
 			RETURN
 			    "Changes between "
 			        & FORMAT ( PreviousScan, "dd-MMM-yyyy" )
